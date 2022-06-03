@@ -14,7 +14,7 @@
         new_vm_ip: "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}"
         new_vm_provisioner: Ansible
         #for SNOW Workflows
-        ci_name: "{{ vm_name }}"
+        ci_name: "{{ vm_name if vm_name is defined else 'AnsibleVM' | default('AnsibleVM')}}"
         ci_ip: "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}"
         ci_os: "{{ virtualmachine_ostype_choice if (virtualmachine_ostype_choice is defined and virtualmachine_ostype_choice != '') else 'Linux' | default ('Linux') }}"
         ci_provisioner: "{{ new_vm_provisioner | default('Ansible') }}"
