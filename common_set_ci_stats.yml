@@ -4,7 +4,7 @@
   hosts: "{{ target_hosts }}"
   vars:
     target_hosts: "{{ vm_name if vm_name is defined else 'all' | default('all') }}"
-  gather_facts: false
+  gather_facts: true
   tasks:
 - name: Setting Stats for the CI 
   ansible.builtin.set_stats:
