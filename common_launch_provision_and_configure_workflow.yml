@@ -39,15 +39,17 @@
         vm_template: "{{ vmware_os_defult_template[os_choice] }}"
         vm_mem_size: "{{ instance_size[platform_choice][vm_size]['mem_size'] | default(2048) }}"
         vm_cpu_count: "{{ instance_size[platform_choice][vm_size]['cpu_count'] | default(2) }}"
+        vm_disk_size: "{{ vm_disk_size_choice }}"
         ec2_name_tag_choice: "{{ vm_name_choice }}"
         ec2_instance_type_choice: "{{ instance_size[platform_choice][vm_size] | default('t2.micro') }}"
+        ec2_volume_size_choice: "{{ vm_disk_size_choice }}"
+        instance_ami_choice: "{{ os_choice }}"
+        azure_virtualmachine_name_choice: "{{ vm_name_choice }}"
+        azure_virtualmachine_size_choice": "{{ instance_size[platform_choice][vm_size] | default('Standard_B1s') }}"
+        azure_virtualmachine_disk_size_choice: "{{ vm_disk_size_choice }}"
         virtualmachine_ostype_choice: "{{ os_choice }}"
         new_vm_name: "{{ vm_name_choice }}"
       wait: False
-    when: platform_choice is defined and platform_choice == 'VMWare'
-
-
-
 
 
 
