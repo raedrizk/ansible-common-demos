@@ -3,7 +3,7 @@
 - name: OS Path chooser (Linux Success - Windwos Fail)
   hosts: "{{ target_hosts }}"
   vars:
-    target_hosts: "{{ vm_name if vm_name is defined else 'all' | default('all') }}"
+    target_hosts: "{{ vm_name+'*' if vm_name is defined else 'all' | default('all') }}"
   gather_facts: true
   tasks:
   - name: Setting Stats for the CI 
