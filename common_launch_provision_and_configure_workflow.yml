@@ -1,0 +1,55 @@
+---
+- name: Launch the {{ platform_choice }} Provision & Configure Workflow for a {{ os_choice }} Machine
+  hosts: localhost
+  gather_facts: false
+  vars:
+    vmware_os_defult_template:
+      Linux: Template_RHEL85
+      Windows: Template_WIN2019DC
+    instance_size:
+      AWS:
+        1vCPU-1GB: t2.micro
+        1vCPU-2GB: t2.small
+        2vCPU-4GB: t2.medium
+        2vCPU-8GB: t2.large
+      Azure:
+        1vCPU-1GB: Standard_B1s
+        1vCPU-2GB: Standard_B1ms
+        2vCPU-4GB: Standard_B2s
+        2vCPU-8GB: Standard_B2ms  
+      VCenter:
+        1vCPU-1GB:
+          cpu_count: 1
+          mem_size: 1024
+        1vCPU-2GB:
+          cpu_count: 1
+          mem_size: 2048
+        2vCPU-4GB:
+          cpu_count: 2
+          mem_size: 4096
+        2vCPU-8GB:
+          cpu_count: 2
+          mem_size: 8192
+  tasks:
+  - name: Launching the {{ platform_choice }} Provision & Configure Workflow for a {{ os_choice }} Machine
+    ansible.controller.workflow_launch:
+      workflow_template: "WF_{{ platform_choice }}_All_Provision_and_Configure"
+      extra_vars:
+        vm_name: "{{ vm_name_choice }}"
+        vm_template: "{{ vmware_os_defult_template[os_choice] }}"
+        vm_mem_size: "{{ instance_size[platform_choice][vm_size]['mem_size'] | default(2048) }}"
+        vm_cpu_count: "{{ instance_size[platform_choice][vm_size]['cpu_count'] | default(2) }}"
+        ec2_name_tag_choice: "{{ vm_name_choice }}"
+        ec2_instance_type_choice: "{{ instance_size[platform_choice][vm_size] | default('t2.micro') }}"
+        virtualmachine_ostype_choice: "{{ os_choice }}"
+        new_vm_name: "{{ vm_name_choice }}"
+      wait: False
+    when: platform_choice is defined and platform_choice == 'VMWare'
+
+
+
+
+
+
+
+
