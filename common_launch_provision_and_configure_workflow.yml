@@ -53,10 +53,10 @@
         azure_virtualmachine_size_choice: "{{ instance_size[platform_choice][vm_size] | default('Standard_B1s') }}"
         azure_virtualmachine_disk_size: "{{ vm_disk_size_choice }}"
         azure_virtualmachine_disk_size_choice: "{{ vm_disk_size_choice }}"
-        gcp_name_tag": "{{ vm_name_choice }}"
-        gcp_image": "rhel-cloud/rhel-8"
+        gcp_name_tag: "{{ vm_name_choice }}"
+        gcp_image: "rhel-cloud/rhel-8"
         gcp_instance_type: "{{ instance_size[platform_choice][vm_size] | default('e2-medium') }}"
-        gcp_disk_size: "{{ vm_disk_size_choice }}"
+        gcp_disk_size: "{{ vm_disk_size_choice | string }}"
         virtualmachine_ostype_choice: "{{ os_choice }}"
         new_vm_name: "{{ vm_name_choice }}"
       wait: False
