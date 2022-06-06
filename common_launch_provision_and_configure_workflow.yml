@@ -17,6 +17,11 @@
         1vCPU-2GB: Standard_B1ms
         2vCPU-4GB: Standard_B2s
         2vCPU-8GB: Standard_B2ms  
+      GCP:
+        1vCPU-1GB: e2-micro
+        1vCPU-2GB: e2-small
+        2vCPU-4GB: e2-medium
+        2vCPU-8GB: e2-standard-2  
       VCenter:
         1vCPU-1GB:
           cpu_count: 1
@@ -48,6 +53,10 @@
         azure_virtualmachine_size_choice: "{{ instance_size[platform_choice][vm_size] | default('Standard_B1s') }}"
         azure_virtualmachine_disk_size: "{{ vm_disk_size_choice }}"
         azure_virtualmachine_disk_size_choice: "{{ vm_disk_size_choice }}"
+        gcp_name_tag": "{{ vm_name_choice }}"
+        gcp_image": "rhel-cloud/rhel-8"
+        gcp_instance_type: "{{ instance_size[platform_choice][vm_size] | default('e2-medium') }}"
+        gcp_disk_size: "{{ vm_disk_size_choice }}"
         virtualmachine_ostype_choice: "{{ os_choice }}"
         new_vm_name: "{{ vm_name_choice }}"
       wait: False
