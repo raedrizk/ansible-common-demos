@@ -13,7 +13,7 @@
         aws_instance_size: "{{ aws_instance_size_choice }}"
         aws_instance_count: "{{ aws_instance_count_choice }}"
         aws_instance_public_key: "{{ aws_instance_public_key_choice }}"
-        software_to_install: "{{ software_to_install_choice }}"
+        software_to_install: "{{ software_to_install }}"
       wait: False
 
 
