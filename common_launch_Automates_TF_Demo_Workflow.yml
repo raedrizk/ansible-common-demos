@@ -1,0 +1,22 @@
+---
+- name: Launch the Automates Demo
+  hosts: localhost
+  gather_facts: false
+  tasks:
+  - name: Launching the Automates TF Demo
+    ansible.controller.workflow_launch:
+      workflow_template: "WF_AWS_TF_Provision_and_configure"
+      extra_vars:
+        aws_region: "{{ aws_region_choice }}"
+        aws_name_tag: "{{ aws_name_tag_choice }}"
+        ec2_os: "{{ ec2_os_choice }}"
+        aws_instance_size: "{{ aws_instance_size_choice }}"
+        aws_instance_count: "{{ aws_instance_count_choice }}"
+        aws_instance_public_key: "{{ aws_instance_public_key_choice }}"
+        software_to_install: "{{ software_to_install_choice }}"
+      wait: False
+
+
+
+
+
