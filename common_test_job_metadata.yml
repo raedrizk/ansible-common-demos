@@ -1,0 +1,11 @@
+
+---
+- name: Show Job Metadata
+  hosts: localhost
+  gather_facts: false
+  tasks:
+  - name: Print Metadata
+    ansible.builtin.debug:
+      var: job_metadata
+
+
