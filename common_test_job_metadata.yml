@@ -6,6 +6,6 @@
   tasks:
   - name: Print Metadata
     ansible.builtin.debug:
-      msg: "{{ tower_job_id }} and {{ controller_job_id }}"
+      msg: "{{ tower_job_id }}"
 
 
