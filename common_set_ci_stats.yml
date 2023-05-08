@@ -1,4 +1,3 @@
-
 ---
 - name: OS Path chooser (Linux Success - Windwos Fail)
   hosts: "{{ target_hosts }}"
@@ -6,19 +5,21 @@
     target_hosts: "{{ vm_name+'*' if vm_name is defined else 'all' | default('all') }}"
   gather_facts: true
   tasks:
-  - name: Setting Stats for the CI 
+  - name: Setting Stats for the CI
     ansible.builtin.set_stats:
       data:
-        new_vm_name: "{{ vm_name if vm_name is defined else inventory_hostname | default('AnsibleVM')}}"
-        new_vm_os: "{{ virtualmachine_ostype_choice if (virtualmachine_ostype_choice is defined and virtualmachine_ostype_choice != '') else 'Linux' | default ('Linux') }}"
-        #new_vm_ip: "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}"
+        new_vm_name: "{{ vm_name if vm_name is defined else inventory_hostname | default('AnsibleVM') }}"
+        new_vm_os: "{{ virtualmachine_ostype_choice if (virtualmachine_ostype_choice is defined and virtualmachine_ostype_choice != '') 
+                        else 'Linux' | default ('Linux') }}"
+        # new_vm_ip: "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}"
         new_vm_ip: "{{ ansible_host }}"
         new_vm_provisioner: Ansible
-        #for SNOW Workflows
+        # for SNOW Workflows
         ci_name: "{{ vm_name if vm_name is defined else inventory_hostname | default('AnsibleVM')}}"
-        #ci_ip: "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}"
+        # ci_ip: "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}"
         ci_ip: "{{ ansible_host }}"
-        ci_os: "{{ virtualmachine_ostype_choice if (virtualmachine_ostype_choice is defined and virtualmachine_ostype_choice != '') else 'Linux' | default ('Linux') }}"
+        ci_os: "{{ virtualmachine_ostype_choice if (virtualmachine_ostype_choice is defined and virtualmachine_ostype_choice != '') 
+                    else 'Linux' | default ('Linux') }}"
         ci_provisioner: "{{ new_vm_provisioner | default('Ansible') }}"
         ci_manufacturer: "{{ new_vm_platform | default('VMWare') }}"
 

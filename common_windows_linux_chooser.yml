@@ -6,4 +6,7 @@
   - name: Choose the fail branch for Windows
     ansible.builtin.fail:
       msg: THIS IS NOT A TRUE FAILURE - WORKAROUND TO PROGRAMATICALLY CHOOSE TOWER WORKFLOW BRANCH.
-    when: (virtualmachine_ostype_choice is defined and  virtualmachine_ostype_choice == "Windows") or (new_vm_os is defined and  new_vm_os == "Windows")
+    when: (instance_ami_choice is defined and  instance_ami_choice == "Windows") or (virtualmachine_ostype_choice is defined and  virtualmachine_ostype_choice == "Windows") or (new_vm_os is defined and  new_vm_os == "Windows")
+
+
+    
