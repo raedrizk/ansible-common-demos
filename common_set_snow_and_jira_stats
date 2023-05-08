@@ -1,0 +1,15 @@
+---
+- name: Set Stats for Jira and SNOW
+  hosts: all
+  gather_facts: false
+  tasks:
+  - name: Setting Stats for the ticketing  systems
+    ansible.builtin.set_stats:
+      data:
+        jira_ticket_summary: "{{ ticket_summary }}"
+        jira_ticket_description: "{{ ticket_description }}"
+        snow_caller_choice: "{{ ticket_caller }}"
+        snow_inc_short_desc_choice: "{{ ticket_summary }}"
+        snow_inc_desc_choice: "{{ ticket_description }}"
+        snow_inc_urgency_choice: "{{ ticket_urgency }}"
+        snow_inc_impact_choice: "{{ ticket_impact }}"
