@@ -7,7 +7,7 @@
   tasks:
     - name: Creating list and dictionary variables
       ansible.builtin.set_fact:
-        cccccclkjgjtnrjkhhbbbfkfgguccivhklnuegggdtnl:
+        ci:
           new_vm_name: "{{ vm_name if vm_name is defined else inventory_hostname | default('AnsibleVM') }}"
           new_vm_os: "{{ virtualmachine_ostype_choice if (virtualmachine_ostype_choice is defined and virtualmachine_ostype_choice != '')
                           else 'Linux' | default ('Linux') }}"
