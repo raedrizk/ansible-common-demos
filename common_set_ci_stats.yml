@@ -42,13 +42,6 @@
       run_once: true
       delegate_to: localhost
 
-    - name: Setting Stats for the CI
-      ansible.builtin.debug:
-        msg: "Set new_ci_info stats with value {{ item.value.new_vm_os }}"
-      loop: "{{ combined_facts | dict2items }}"
-      run_once: true
-      delegate_to: localhost
-
     # Compatability with old code
     - name: Setting Stats for the CI
       ansible.builtin.set_stats:
@@ -67,4 +60,3 @@
                       else 'Linux' | default ('Linux') }}"
           ci_provisioner: "{{ new_vm_provisioner | default('Ansible') }}"
           ci_manufacturer: "{{ new_vm_platform | default('VMWare') }}"
-
