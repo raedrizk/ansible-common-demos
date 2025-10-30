@@ -45,7 +45,7 @@
     - name: Setting Stats for the CI
       ansible.builtin.debug:
         msg: "Set new_ci_info stats with value {{ item }}"
-      loop: "{{ combined_facts }}"
+      loop: "{{ combined_facts | dict2items }}"
       run_once: true
       delegate_to: localhost
 
