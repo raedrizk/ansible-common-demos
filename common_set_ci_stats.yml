@@ -7,7 +7,7 @@
   tasks:
     - name: Creating list and dictionary variables
       ansible.builtin.set_fact:
-        ci:
+        cccccclkjgjtnrjkhhbbbfkfgguccivhklnuegggdtnl:
           new_vm_name: "{{ vm_name if vm_name is defined else inventory_hostname | default('AnsibleVM') }}"
           new_vm_os: "{{ virtualmachine_ostype_choice if (virtualmachine_ostype_choice is defined and virtualmachine_ostype_choice != '')
                           else 'Linux' | default ('Linux') }}"
@@ -31,7 +31,7 @@
   tasks:
     - name: Combine custom facts from all hosts into one dictionary
       ansible.builtin.set_fact:
-        combined_facts: "{{ combined_facts | default({}) | combine({ item: hostvars[item].my_custom_fact }) }}"
+        combined_facts: "{{ combined_facts | default({}) | combine({ item: hostvars[item].ci }) }}"
       loop: "{{ target_hosts }}"
       run_once: true
 
