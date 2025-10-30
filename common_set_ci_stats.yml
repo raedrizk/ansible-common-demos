@@ -22,7 +22,6 @@
                     else 'Linux' | default ('Linux') }}"
         ci_provisioner: "{{ new_vm_provisioner | default('Ansible') }}"
         ci_manufacturer: "{{ new_vm_platform | default('VMWare') }}"
-      per_host: true
       aggregate: false
 
 
