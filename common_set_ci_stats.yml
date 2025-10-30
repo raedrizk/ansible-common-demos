@@ -1,28 +1,63 @@
 ---
-- name: OS Path chooser (Linux Success - Windwos Fail)
+- name: Set stats for CI creation
   hosts: "{{ target_hosts }}"
   vars:
     target_hosts: "{{ vm_name+'*' if vm_name is defined else 'all' | default('all') }}"
-  gather_facts: true
+  gather_facts: false
   tasks:
-  - name: Setting Stats for the CI
-    ansible.builtin.set_stats:
-      data:
-        new_vm_name: "{{ vm_name if vm_name is defined else inventory_hostname | default('AnsibleVM') }}"
-        new_vm_os: "{{ virtualmachine_ostype_choice if (virtualmachine_ostype_choice is defined and virtualmachine_ostype_choice != '') 
-                        else 'Linux' | default ('Linux') }}"
-        # new_vm_ip: "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}"
-        new_vm_ip: "{{ ansible_host }}"
-        new_vm_provisioner: Ansible
-        # for SNOW Workflows
-        ci_name: "{{ vm_name if vm_name is defined else inventory_hostname | default('AnsibleVM')}}"
-        # ci_ip: "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}"
-        ci_ip: "{{ ansible_host }}"
-        ci_os: "{{ virtualmachine_ostype_choice if (virtualmachine_ostype_choice is defined and virtualmachine_ostype_choice != '') 
-                    else 'Linux' | default ('Linux') }}"
-        ci_provisioner: "{{ new_vm_provisioner | default('Ansible') }}"
-        ci_manufacturer: "{{ new_vm_platform | default('VMWare') }}"
-      aggregate: false
+    - name: Creating list and dictionary variables
+      ansible.builtin.set_fact:
+        ci:
+          new_vm_name: "{{ vm_name if vm_name is defined else inventory_hostname | default('AnsibleVM') }}"
+          new_vm_os: "{{ virtualmachine_ostype_choice if (virtualmachine_ostype_choice is defined and virtualmachine_ostype_choice != '')
+                          else 'Linux' | default ('Linux') }}"
+          new_vm_ip: "{{ ansible_host }}"
+          new_vm_provisioner: Ansible
+          # for SNOW Workflows
+          ci_name: "{{ vm_name if vm_name is defined else inventory_hostname | default('AnsibleVM')}}"
+          ci_ip: "{{ ansible_host }}"
+          ci_os: "{{ virtualmachine_ostype_choice if ( virtualmachine_ostype_choice is defined and virtualmachine_ostype_choice != '' )
+                      else 'Linux' | default ('Linux') }}"
+          ci_provisioner: "{{ new_vm_provisioner | default('Ansible') }}"
+          ci_manufacturer: "{{ new_vm_platform | default('VMWare') }}"
+
+- name: Combine facts on the control node
+  hosts: localhost
+  vars:
+    target_hosts: "{{ vm_name+'*' if vm_name is defined else 'all' | default('all') }}"
+  connection: local
+  gather_facts: false
+
+  tasks:
+    - name: Combine custom facts from all hosts into one dictionary
+      ansible.builtin.set_fact:
+        combined_facts: "{{ combined_facts | default({}) | combine({ item: hostvars[item].my_custom_fact }) }}"
+      loop: "{{ target_hosts }}"
+      run_once: true
+
+    - name: Print the combined dictionary
+      ansible.builtin.debug:
+        var: combined_facts
+      run_once: true
+
+  # - name: Setting Stats for the CI
+  #   ansible.builtin.set_stats:
+  #     data:
+  #       new_vm_name: "{{ vm_name if vm_name is defined else inventory_hostname | default('AnsibleVM') }}"
+  #       new_vm_os: "{{ virtualmachine_ostype_choice if (virtualmachine_ostype_choice is defined and virtualmachine_ostype_choice != '') 
+  #                       else 'Linux' | default ('Linux') }}"
+  #       # new_vm_ip: "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}"
+  #       new_vm_ip: "{{ ansible_host }}"
+  #       new_vm_provisioner: Ansible
+  #       # for SNOW Workflows
+  #       ci_name: "{{ vm_name if vm_name is defined else inventory_hostname | default('AnsibleVM')}}"
+  #       # ci_ip: "{{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}"
+  #       ci_ip: "{{ ansible_host }}"
+  #       ci_os: "{{ virtualmachine_ostype_choice if (virtualmachine_ostype_choice is defined and virtualmachine_ostype_choice != '') 
+  #                   else 'Linux' | default ('Linux') }}"
+  #       ci_provisioner: "{{ new_vm_provisioner | default('Ansible') }}"
+  #       ci_manufacturer: "{{ new_vm_platform | default('VMWare') }}"
+  #     aggregate: false
 
 
 
