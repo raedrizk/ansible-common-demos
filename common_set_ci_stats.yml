@@ -32,7 +32,7 @@
     - name: Combine custom facts from all hosts into one dictionary
       ansible.builtin.set_fact:
         combined_facts: "{{ combined_facts | default({}) | combine({ item: hostvars[item].ci }) }}"
-      loop: "{{ target_hosts }}"
+      loop: "{{ groups[target_hosts] }}"
       run_once: true
 
     - name: Print the combined dictionary
