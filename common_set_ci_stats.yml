@@ -21,24 +21,45 @@
           ci_provisioner: "{{ new_vm_provisioner | default('Ansible') }}"
           ci_manufacturer: "{{ new_vm_platform | default('VMWare') }}"
 
-- name: Combine facts on the control node
-  hosts: localhost
-  vars:
-    target_hosts: "{{ vm_name+'*' if vm_name is defined else 'all' | default('all') }}"
-  connection: local
-  gather_facts: false
-
-  tasks:
-    - name: Combine custom facts from all hosts into one dictionary
+    - name: Combine ci facts from all hosts into one artifact
       ansible.builtin.set_fact:
         combined_facts: "{{ combined_facts | default({}) | combine({ item: hostvars[item].ci }) }}"
       loop: "{{ groups[target_hosts] }}"
       run_once: true
+      delegate_to: localhost
 
     - name: Print the combined dictionary
       ansible.builtin.debug:
         var: combined_facts
       run_once: true
+      delegate_to: localhost
+
+    - name: Setting Stats for the CI
+      ansible.builtin.set_stats:
+        data:
+          new_ci_info: "{{ combined_facts }}"
+        aggregate: false
+      run_once: true
+      delegate_to: localhost
+
+# - name: Combine facts on the control node
+#   hosts: localhost
+#   vars:
+#     target_hosts: "{{ vm_name+'*' if vm_name is defined else 'all' | default('all') }}"
+#   connection: local
+#   gather_facts: false
+#   tasks:
+#     - name: Combine ci facts from all hosts into one artifact
+#       ansible.builtin.set_fact:
+#         combined_facts: "{{ combined_facts | default({}) | combine({ item: hostvars[item].ci }) }}"
+#       loop: "{{ groups[target_hosts] }}"
+#       run_once: true
+
+#     - name: Print the combined dictionary
+#       ansible.builtin.debug:
+#         var: combined_facts
+#       run_once: true
+  
 
   # - name: Setting Stats for the CI
   #   ansible.builtin.set_stats:
