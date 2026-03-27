@@ -2,7 +2,8 @@
 - name: Set stats for CI creation
   hosts: "{{ target_hosts }}"
   vars:
-    target_hosts: "{{ vm_name+'*' if vm_name is defined else 'all' | default('all') }}"
+    # target_hosts: "{{ vm_name+'*' if vm_name is defined else 'all' | default('all') }}"
+    target_hosts: "{{ vm_name if vm_name is defined else 'all' | default('all') }}"
   gather_facts: false
   tasks:
     - name: Creating list and dictionary variables
