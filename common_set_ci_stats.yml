@@ -26,7 +26,7 @@
       ansible.builtin.set_fact:
         combined_facts: "{{ combined_facts | default({}) | combine({ item: hostvars[item].ci }) }}"
       # loop: "{{ groups[target_hosts] }}"
-      loop: "{{ vm_name if vm_name is defined else 'groups[all]' | default('groups[all]') }}"
+      loop: "{{ [vm_name] if vm_name is defined else 'groups[all]' | default('groups[all]') }}"
       run_once: true
       delegate_to: localhost
 
