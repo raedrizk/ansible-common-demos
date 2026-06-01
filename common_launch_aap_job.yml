@@ -1,0 +1,22 @@
+---
+- name: Launch an AAP Job and Wait for Completion
+  hosts: all
+  gather_facts: false
+  tasks:
+  - name: Launch a job
+    ansible.controller.job_launch:
+      job_template: "{{ job_template_name }}"
+    register: job
+
+  - name: Set fact for job id
+    ansible.builtin.set_fact:
+      job_id: "{{ job.id }}"
+
+  - name: Display Job ID
+    ansible.builtin.debug:
+      msg: "Launched Job with ID: {{ job_id }}"
+
+  - name: Wait for job {{ job_id }} to complete
+    ansible.controller.job_wait:
+      job_id: "{{ job_id }}"
+      timeout: "{{ job_wait_timeout | default(omit) }}"
