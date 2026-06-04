@@ -1,0 +1,7 @@
+- name: Debug Survey var value
+  hosts: all
+  gather_facts: false
+  tasks:
+  - name: Display Job ID
+    ansible.builtin.debug:
+      msg: "variable value is {{ my_var }}"
